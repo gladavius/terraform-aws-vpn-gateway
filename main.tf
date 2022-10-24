@@ -18,8 +18,9 @@ locals {
 resource "aws_vpn_connection" "default" {
   count = var.create_vpn_connection && local.tunnel_details_not_specified ? 1 : 0
 
-  vpn_gateway_id     = var.vpn_gateway_id
-  transit_gateway_id = var.transit_gateway_id
+  vpn_gateway_id                          = var.vpn_gateway_id
+  transit_gateway_id                      = var.transit_gateway_id
+  transport_transit_gateway_attachment_id = var.transport_transit_gateway_attachment_id
 
   customer_gateway_id = var.customer_gateway_id
   type                = "ipsec.1"
@@ -78,6 +79,8 @@ resource "aws_vpn_connection" "default" {
 
   local_ipv6_network_cidr  = var.local_ipv6_network_cidr
   remote_ipv6_network_cidr = var.remote_ipv6_network_cidr
+
+  outside_ip_address_type = var.outside_ip_address_type
 
   tags = merge(
     {
@@ -91,8 +94,9 @@ resource "aws_vpn_connection" "default" {
 resource "aws_vpn_connection" "tunnel" {
   count = var.create_vpn_connection && local.create_tunnel_with_internal_cidr_only ? 1 : 0
 
-  vpn_gateway_id     = var.vpn_gateway_id
-  transit_gateway_id = var.transit_gateway_id
+  vpn_gateway_id                          = var.vpn_gateway_id
+  transit_gateway_id                      = var.transit_gateway_id
+  transport_transit_gateway_attachment_id = var.transport_transit_gateway_attachment_id
 
   customer_gateway_id = var.customer_gateway_id
   type                = "ipsec.1"
@@ -155,6 +159,8 @@ resource "aws_vpn_connection" "tunnel" {
   local_ipv6_network_cidr  = var.local_ipv6_network_cidr
   remote_ipv6_network_cidr = var.remote_ipv6_network_cidr
 
+  outside_ip_address_type = var.outside_ip_address_type
+
   tags = merge(
     {
       "Name" = local.name_tag
@@ -167,8 +173,9 @@ resource "aws_vpn_connection" "tunnel" {
 resource "aws_vpn_connection" "preshared" {
   count = var.create_vpn_connection && local.create_tunnel_with_preshared_key_only ? 1 : 0
 
-  vpn_gateway_id     = var.vpn_gateway_id
-  transit_gateway_id = var.transit_gateway_id
+  vpn_gateway_id                          = var.vpn_gateway_id
+  transit_gateway_id                      = var.transit_gateway_id
+  transport_transit_gateway_attachment_id = var.transport_transit_gateway_attachment_id
 
   customer_gateway_id = var.customer_gateway_id
   type                = "ipsec.1"
@@ -228,6 +235,8 @@ resource "aws_vpn_connection" "preshared" {
   local_ipv6_network_cidr  = var.local_ipv6_network_cidr
   remote_ipv6_network_cidr = var.remote_ipv6_network_cidr
 
+  outside_ip_address_type = var.outside_ip_address_type
+
   tags = merge(
     {
       "Name" = local.name_tag
@@ -240,8 +249,9 @@ resource "aws_vpn_connection" "preshared" {
 resource "aws_vpn_connection" "tunnel_preshared" {
   count = var.create_vpn_connection && local.tunnel_details_specified ? 1 : 0
 
-  vpn_gateway_id     = var.vpn_gateway_id
-  transit_gateway_id = var.transit_gateway_id
+  vpn_gateway_id                          = var.vpn_gateway_id
+  transit_gateway_id                      = var.transit_gateway_id
+  transport_transit_gateway_attachment_id = var.transport_transit_gateway_attachment_id
 
   customer_gateway_id = var.customer_gateway_id
   type                = "ipsec.1"
@@ -303,6 +313,8 @@ resource "aws_vpn_connection" "tunnel_preshared" {
 
   local_ipv6_network_cidr  = var.local_ipv6_network_cidr
   remote_ipv6_network_cidr = var.remote_ipv6_network_cidr
+
+  outside_ip_address_type = var.outside_ip_address_type
 
   tags = merge(
     {
